@@ -436,7 +436,7 @@ while true; do
         revoke_ssl "$domain"
         
     elif [ "$option" == "6" ]; then
-unistall
+        unistall
         
     elif [ "$option" == "0" ]; then
         clear
