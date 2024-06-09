@@ -436,8 +436,7 @@ while true; do
         revoke_ssl "$domain"
         
     elif [ "$option" == "6" ]; then
-        validate_domain
-        revoke_ssl "$domain"
+unistall
         
     elif [ "$option" == "0" ]; then
         clear
