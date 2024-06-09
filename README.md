@@ -1,4 +1,4 @@
-https://github.com/erfjab/ESSL/assets/143827987/2e9873a6-1ea8-4777-a4f9-a18cd58a0a29
+
 
 <p align="center">
   <a href="./README.md">
@@ -20,6 +20,10 @@ ESSL (Easy SSL) is a user-friendly script designed to streamline the process of 
 - Renewal ssl (update)
 - Revoke ssl (delete)
 - Automatic/Custom patch (support all panel's directory)
+
+### New Future's:
+-Add an option to delete packages and certificates
+-Solving the problem of moving files in Marzban option
 
 ### Support:
 - Acme
@@ -121,10 +125,9 @@ In Revoke fi you only need :
 If your domain is in the domain list, it will revoked.
 </details>
 
-## Support project 
+## Thanks
+erfjab[(Github)](https://github.com/erfjab/ESSL)
 
-**We don't need financial support, only Star (⭐) is enough, thank you.**
 
-[![Stargazers over time](https://starchart.cc/erfjab/essl.svg?variant=adaptive)](https://starchart.cc/erfjab/essl)
 
 
