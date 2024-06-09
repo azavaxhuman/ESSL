@@ -386,16 +386,16 @@ print "\n\n\tStarting ESSL uninstallation...\n"
 
 remove_packages
 remove_acme
-print "Do you want to delete all certificates?"
+print "\nDo you want to delete all certificates?"
 input "\nEnter your choice (Y/N): " "D_C_choice"
 if [ "$D_C_choice" == "Y" ] || [ "$D_C_choice" == "y" ]; then
-    print "Are you sure?"
+    print "\nAre you sure?"
     input "\nEnter your choice (Y/N): " "D_C2_choice"
     if [ "$D_C2_choice" == "Y" ] || [ "$D_C2_choice" == "y" ]; then
         remove_certificates
     fi
 else
-    print "Ok, we keep the certificates, they are in these folders"
+    print "\nOk, we keep the certificates, they are in these folders"
     print "\n/etc/letsencrypt"
     print "\n/var/lib/marzban/certs"
     print "\n/certs"
