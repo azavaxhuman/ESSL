@@ -269,10 +269,10 @@ get_cloudflare_ssl() {
     local api_key="$2"
     local email="$3"
     
-    export CF_Token="$api_key"
+    export CF_Key="$api_key"
     export CF_Email="$email"
     
-    if [ -z "$CF_Token" ] || [ -z "$CF_Email" ]; then
+    if [ -z "$CF_Key" ] || [ -z "$CF_Email" ]; then
         error "\n\tCloudflare token and email must be provided."
         return 1
     fi
