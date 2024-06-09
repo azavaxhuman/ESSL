@@ -70,6 +70,7 @@ validate_email() {
     while true; do
         input "Please enter your email: " 'email'
         if [[ "$email" =~ .*@.*\..* && ${#email} -gt 5 ]]; then
+            echo "$email"
             return 0
         else
             error "Invalid email format. Please enter a valid email address."
@@ -81,6 +82,7 @@ validate_apikey() {
     while true; do
         input "Please enter your Global API key: " "api_key"
         if [[ -n "$api_key" ]]; then
+            echo "$api_key"
             break
         else
             error "API key cannot be empty. Please enter a valid API key."
