@@ -426,7 +426,7 @@ print "\t\t v2.1.1 by @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.2"
+    print "V1.3"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
@@ -471,7 +471,8 @@ while true; do
             validate_domain
             validate_email "cloudflare"
             validate_apikey
-            clear
+            echo "$email"
+            echo"$api_key"
             get_cloudflare_ssl "$domain" "$email" "$api_key"
         else
             error "Invalid option. Please enter 1 or 2."
