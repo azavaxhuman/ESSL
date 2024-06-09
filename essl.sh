@@ -1,15 +1,15 @@
 #!/bin/bash
 
 print() {
-    echo -e "\e[94m"$1"\e[0m"
+    echo -e "\e[94m""$1""\e[0m"
 }
 
 error() {
-    echo -e "\e[1;91m[error] "$1"\e[0m"
+    echo -e "\e[1;91m[error] ""$1""\e[0m"
 }
 
 success() {
-    echo -e "\e[1;94m[success] "$1"\e[0m"
+    echo -e "\e[1;94m[success] ""$1""\e[0m"
 }
 
 input() {
@@ -190,13 +190,13 @@ get_multi_domain_ssl() {
         domain_args+=" -d $domain"
     done
 
-    if sudo certbot certonly --standalone $domain_args --email $email --non-interactive; then
+    if sudo certbot certonly --standalone "$domain_args" --email "$email" --non-interactive; then
         success "\n\n\t⭐ SSL certificate for domains '$domains' successfully obtained."
         for domain in $domains; do
             move_ssl_files_combined "$domain" "certbot"
             break
         done
-    elif sudo ~/.acme.sh/acme.sh --issue --force --standalone $domain_args; then
+    elif sudo ~/.acme.sh/acme.sh --issue --force --standalone "$domain_args"; then
         success "\n\n\t⭐ SSL certificate for domains '$domains' successfully obtained."
         for domain in $domains; do
             move_ssl_files_combined "$domain" "acme"
@@ -268,13 +268,99 @@ get_cloudflare_ssl() {
     local domain="$1"    
     export CF_Key="$2"
     export CF_Email="$3"
-    if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d ${domain} -d *.${domain} --log; then
+    if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -d *."${domain}" --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
     else
         error "\n\tFailed to obtain SSL certificate for domain '$domain' from Cloudflare."
     fi
 }
+
+
+
+
+#Remove Package
+unistall(){
+remove_packages() {
+    if command -v apt &>/dev/null; then
+        apt remove --purge -y socat certbot
+    elif command -v yum &>/dev/null; then
+        yum -y remove socat certbot
+    elif command -v dnf &>/dev/null; then
+        dnf -y remove socat certbot
+    elif command -v pacman &>/dev/null; then
+        pacman -Rns --noconfirm socat certbot
+    else
+        error "Unsupported operating system."
+        exit 1
+    fi
+}
+
+remove_acme() {
+    if [ -d "$HOME/.acme.sh" ]; then
+        ~/.acme.sh/acme.sh --uninstall
+        rm -rf "$HOME/.acme.sh"
+    fi
+}
+
+remove_certificates() {
+    rm -rf /etc/letsencrypt
+    rm -rf /var/lib/marzban/certs
+    rm -rf /certs
+}
+
+remove_files() {
+    rm -f /usr/local/bin/essl.sh
+    rm -f /usr/local/bin/essl
+}
+
+clean_system() {
+    if command -v apt &>/dev/null; then
+        apt autoremove -y
+        apt clean
+    elif command -v yum &>/dev/null; then
+        yum -y autoremove
+    elif command -v dnf &>/dev/null; then
+        dnf -y autoremove
+    elif command -v pacman &>/dev/null; then
+        pacman -Rns $(pacman -Qdtq) --noconfirm
+    else
+        error "Unsupported operating system."
+        exit 1
+    fi
+}
+
+
+clear
+
+print "\n\n\tStarting ESSL uninstallation...\n"
+
+remove_packages
+remove_acme
+print "Do you want to delete all certificates?"
+input "\nEnter your choice (Y , N): " "D_C_choice"
+if [ D_C_choice == "Y" ]; then
+print "Are You Sure?"
+input "\nEnter your choice (Y , N): " "D_C2_choice"
+if [ D_C2_choice == "Y" ]; then
+remove_certificates
+fi
+else
+print "Ok, we keep the certificates, they are in these folders"
+print "\n/etc/letsencrypt"
+print "\n/var/lib/marzban/certs"
+print "\n/certs"
+fi
+remove_files
+clean_system
+
+success "\n\n\tESSL and all related components have been successfully removed.\n"
+
+}
+
+
+
+
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -290,6 +376,7 @@ while true; do
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
     print "4) Renewal ssl (update)" 
     print "5) Revoke ssl (delete)"
+    print "6) Unistall and delete Cert file"
     print "0) Exit"
     input '\nPlease Select your option: ' 'option'
     clear
@@ -347,7 +434,11 @@ while true; do
     elif [ "$option" == "5" ]; then
         validate_domain
         revoke_ssl "$domain"
-    
+        
+    elif [ "$option" == "6" ]; then
+        validate_domain
+        revoke_ssl "$domain"
+        
     elif [ "$option" == "0" ]; then
         clear
         exit 1
