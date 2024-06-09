@@ -269,15 +269,10 @@ get_cloudflare_ssl() {
     local api_key="$2"
     local email="$3"
     
-    export CF_Key="$api_key"
-    export CF_Email="$email"
+    export CF_Token="\"$api_key\""
+    export CF_Email="\"$email\""
     
-    if [ -z "$CF_Key" ] || [ -z "$CF_Email" ]; then
-        error "\n\tCloudflare token and email must be provided."
-        return 1
-    fi
-    
-    if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -d "*.${domain}" --log; then
+    if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -d *."${domain}" --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
     else
@@ -429,7 +424,7 @@ print "\t\t v2.1.1 by @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.0"
+    print "V1.1"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
