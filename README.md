@@ -38,7 +38,7 @@ ESSL (Easy SSL) is a user-friendly script designed to streamline the process of 
 just copy/paste and enjoy : 
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com//azavaxhuman/ESSL/raw/main/essl.sh)"
+sudo bash -c "$(curl -sL https://github.com/azavaxhuman/ESSL/raw/main/essl.sh)"
 ```
 <details>
 
