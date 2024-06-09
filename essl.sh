@@ -331,6 +331,55 @@ clean_system() {
 }
 
 
+remove_packages() {
+    if command -v apt &>/dev/null; then
+        apt remove --purge -y socat certbot
+    elif command -v yum &>/dev/null; then
+        yum -y remove socat certbot
+    elif command -v dnf &>/dev/null; then
+        dnf -y remove socat certbot
+    elif command -v pacman &>/dev/null; then
+        pacman -Rns --noconfirm socat certbot
+    else
+        error "Unsupported operating system."
+        exit 1
+    fi
+}
+
+remove_acme() {
+    if [ -d "$HOME/.acme.sh" ]; then
+        ~/.acme.sh/acme.sh --uninstall
+        rm -rf "$HOME/.acme.sh"
+    fi
+}
+
+remove_certificates() {
+    rm -rf /etc/letsencrypt
+    rm -rf /var/lib/marzban/certs
+    rm -rf /certs
+}
+
+remove_files() {
+    rm -f /usr/local/bin/essl.sh
+    rm -f /usr/local/bin/essl
+}
+
+clean_system() {
+    if command -v apt &>/dev/null; then
+        apt autoremove -y
+        apt clean
+    elif command -v yum &>/dev/null; then
+        yum -y autoremove
+    elif command -v dnf &>/dev/null; then
+        dnf -y autoremove
+    elif command -v pacman &>/dev/null; then
+        pacman -Rns $(pacman -Qdtq) --noconfirm
+    else
+        error "Unsupported operating system."
+        exit 1
+    fi
+}
+
 clear
 
 print "\n\n\tStarting ESSL uninstallation...\n"
@@ -338,24 +387,24 @@ print "\n\n\tStarting ESSL uninstallation...\n"
 remove_packages
 remove_acme
 print "Do you want to delete all certificates?"
-input "\nEnter your choice (Y , N): " "D_C_choice"
-if [ D_C_choice == "Y" ]; then
-print "Are You Sure?"
-input "\nEnter your choice (Y , N): " "D_C2_choice"
-if [ D_C2_choice == "Y" ]; then
-remove_certificates
-fi
+input "\nEnter your choice (Y/N): " "D_C_choice"
+if [ "$D_C_choice" == "Y" ] || [ "$D_C_choice" == "y" ]; then
+    print "Are you sure?"
+    input "\nEnter your choice (Y/N): " "D_C2_choice"
+    if [ "$D_C2_choice" == "Y" ] || [ "$D_C2_choice" == "y" ]; then
+        remove_certificates
+    fi
 else
-print "Ok, we keep the certificates, they are in these folders"
-print "\n/etc/letsencrypt"
-print "\n/var/lib/marzban/certs"
-print "\n/certs"
+    print "Ok, we keep the certificates, they are in these folders"
+    print "\n/etc/letsencrypt"
+    print "\n/var/lib/marzban/certs"
+    print "\n/certs"
 fi
+
 remove_files
 clean_system
 
 success "\n\n\tESSL and all related components have been successfully removed.\n"
-
 }
 
 
@@ -436,7 +485,15 @@ while true; do
         revoke_ssl "$domain"
         
     elif [ "$option" == "6" ]; then
+    print "Are you sure?"
+    input "\nEnter your choice (Y/N): " "u_choice"
+    if [ "$u_choice" == "Y" ] || [ "$u_choice" == "y" ]; then
         unistall
+else
+    print "Ok, we keep it !"
+fi
+
+        
         
     elif [ "$option" == "0" ]; then
         clear
