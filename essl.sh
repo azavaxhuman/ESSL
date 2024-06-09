@@ -212,7 +212,7 @@ get_wildcard_ssl() {
     local email="$2"
     if sudo certbot certonly --manual --preferred-challenges=dns -d "*.$domain" --agree-tos --email "$email";then
         success "\n\n\t⭐ SSL certificate for domain '*.$domain' successfully obtained."
-        move_ssl_files_combined "*.$domain" "certbot"
+        move_ssl_files_combined "$domain" "certbot"
         return 0
     else
         error "Failed to obtain SSL certificate for domain '$domain'. Please check your DNS configuration and try again.\n"
