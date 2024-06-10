@@ -420,7 +420,7 @@ print "\t\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.9"
+    print "V2.0"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
@@ -465,8 +465,8 @@ while true; do
             validate_domain
             validate_email 
             validate_apikey
-            export CF_Key=$api_key
-            export CF_Email=$email
+            export CF_Key="$api_key"
+            export CF_Email="$email"
             get_cloudflare_ssl "$domain" "$email" "$api_key"
         else
             error "Invalid option. Please enter 1 or 2."
