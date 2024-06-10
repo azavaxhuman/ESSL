@@ -268,11 +268,12 @@ get_cloudflare_ssl() {
     local domain="$1"    
     local api_key="$2"
     local email="$3"
-    
+    echo $api_key
+    echo $email
 export CF_Key="$api_key"
 export CF_Email="$email"
     
-    if sudo ~/.acme.sh/acme.sh --issue --server letsencrypt --home .  -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
+    if sudo ~/.acme.sh/acme.sh --issue -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
     else
@@ -447,7 +448,7 @@ while true; do
             get_single_ssl "$domain" "$email"
         elif [[ "$select_option" =~ 2 ]]; then
             validate_domain
-            validate_email "cloudflare"
+            validate_email 
             validate_apikey
             clear
             get_cloudflare_ssl "$domain" "$email" "$api_key"
@@ -467,10 +468,8 @@ while true; do
             get_wildcard_ssl "$domain" "$email"
         elif [[ "$select_option" =~ 2 ]]; then
             validate_domain
-            validate_email "cloudflare"
+            validate_email 
             validate_apikey
-            echo "$email"
-            echo"$api_key"
             get_cloudflare_ssl "$domain" "$email" "$api_key"
         else
             error "Invalid option. Please enter 1 or 2."
