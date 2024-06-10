@@ -272,7 +272,7 @@ get_cloudflare_ssl() {
 export CF_Token="$api_key"
 export CF_Email="$email"
     
-    if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -d *."${domain}" --log; then
+    if sudo ~/.acme.sh/acme.sh --issue --server letsencrypt --home .  -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
     else
@@ -420,11 +420,11 @@ success "\n\n\tESSL and all related components have been successfully removed.\n
 clear ; update_packages ; install_certbot ; install_acme ; clear
 
 print "\n\n\t Welcome to ESSL"
-print "\t\t v2.1.1 by @ErfJab\n\n"
+print "\t\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.3"
+    print "V1.4"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
