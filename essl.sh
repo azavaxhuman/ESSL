@@ -68,7 +68,7 @@ validate_domain() {
 
 validate_email() {
     while true; do
-        read -r -p "Please enter your email: " email
+        read -r -p "Please enter your email: " email_r
         if [[ "$email_r" =~ .*@.*\..* && ${#email_r} -gt 5 ]]; then
         email="$email_r"
             return 0
@@ -80,7 +80,7 @@ validate_email() {
 
 validate_apikey() {
     while true; do
-        read -r -p  "Please enter your Global API key: " api_key
+        read -r -p  "Please enter your Global API key: " api_key_r
         if [[ -n "$api_key_r" ]]; then
             api_key="$api_key_r"
             break
@@ -422,7 +422,7 @@ print "\t\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V2.1"
+    print "V2.2"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
