@@ -1,17 +1,5 @@
-
-
-<p align="center">
-  <a href="./README.md">
-	English
-	</a>
-	|
-	<a href="./README_fa.md">
-	فارسی
-	</a>
-</p>
-
-# What is ESSL?
-ESSL (Easy SSL) is a user-friendly script designed to streamline the process of obtaining SSL certificates through various methods. It simplifies the procedure, sparing users from confusing and unnecessary commands. just copy and paste one line so that everything is done automatically.
+# What is VESSL?
+VESSL is a fork of the version of ESSL that, in addition to the advantages of the original version, its problems have been resolved and brief but important features have been added to it.
 
 ### Future's:
 - Single domain ssl (sub.domain.com)
@@ -126,7 +114,7 @@ If your domain is in the domain list, it will revoked.
 </details>
 
 ## Thanks
-erfjab[(Github)](https://github.com/erfjab/ESSL)
+Special thanks to erfjab [(ٍESSL-Github)](https://github.com/erfjab/ESSL)
 
 
 
