@@ -70,7 +70,6 @@ validate_email() {
     while true; do
         input "Please enter your email: " 'email'
         if [[ "$email" =~ .*@.*\..* && ${#email} -gt 5 ]]; then
-            echo "$email"
             return 0
         else
             error "Invalid email format. Please enter a valid email address."
@@ -82,7 +81,6 @@ validate_apikey() {
     while true; do
         input "Please enter your Global API key: " "api_key"
         if [[ -n "$api_key" ]]; then
-            echo "$api_key"
             break
         else
             error "API key cannot be empty. Please enter a valid API key."
@@ -271,8 +269,8 @@ get_cloudflare_ssl() {
     local api_key="$2"
     local email="$3"
     
-    export CF_Token="\"$api_key\""
-    export CF_Email="\"$email\""
+export CF_Token="$api_key"
+export CF_Email="$email"
     
     if sudo ~/.acme.sh/acme.sh --issue --dns dns_cf -d "${domain}" -d *."${domain}" --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
