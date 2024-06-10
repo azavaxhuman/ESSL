@@ -424,7 +424,7 @@ print "\t\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.4"
+    print "V1.5"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
