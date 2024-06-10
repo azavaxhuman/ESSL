@@ -268,11 +268,10 @@ get_cloudflare_ssl() {
     local domain="$1"    
     local api_key="$2"
     local email="$3"
-    echo $api_key
-    echo $email
-export CF_Key="$api_key"
-export CF_Email="$email"
-    
+echo "export CF_Key=$api_key" >> ~/.bashrc
+echo "export CF_Email=$email" >> ~/.bashrc
+source ~/.bashrc
+
     if sudo ~/.acme.sh/acme.sh --issue -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
@@ -425,7 +424,7 @@ print "\t\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.6"
+    print "V1.7"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
