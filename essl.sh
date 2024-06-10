@@ -68,7 +68,7 @@ validate_domain() {
 
 validate_email() {
     while true; do
-        input "Please enter your email: " 'email'
+        read -r -p "Please enter your email: " email
         if [[ "$email" =~ .*@.*\..* && ${#email} -gt 5 ]]; then
             return 0
         else
@@ -79,7 +79,7 @@ validate_email() {
 
 validate_apikey() {
     while true; do
-        input "Please enter your Global API key: " "api_key"
+        read -r -p  "Please enter your Global API key: " api_key
         if [[ -n "$api_key" ]]; then
             break
         else
