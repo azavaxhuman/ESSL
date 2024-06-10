@@ -1,15 +1,15 @@
 #!/bin/bash
 
 print() {
-    echo -e "\e[94m""$1""\e[0m"
+    echo -e "\e[94m"$1"\e[0m"
 }
 
 error() {
-    echo -e "\e[1;91m[error] ""$1""\e[0m"
+    echo -e "\e[1;91m[error] "$1"\e[0m"
 }
 
 success() {
-    echo -e "\e[1;94m[success] ""$1""\e[0m"
+    echo -e "\e[1;94m[success] "$1"\e[0m"
 }
 
 input() {
