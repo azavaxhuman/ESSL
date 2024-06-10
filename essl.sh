@@ -423,8 +423,8 @@ success "\n\n\tESSL and all related components have been successfully removed.\n
 
 clear ; update_packages ; install_certbot ; install_acme ; clear
 
-print "\n\nWelcome to VESSL"
-print "\t by @DAILYDIGITALSKILLS\n\n"
+print "\n\n\t\tWelcome to VESSL"
+print "\t by @DAILYDIGITALSKILLS"
 print "\t forked from @ErfJab\n\n"
 
 while true; do
