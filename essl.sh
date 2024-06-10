@@ -269,7 +269,7 @@ get_cloudflare_ssl() {
     local api_key="$2"
     local email="$3"
     
-export CF_Token="$api_key"
+export CF_Key="$api_key"
 export CF_Email="$email"
     
     if sudo ~/.acme.sh/acme.sh --issue --server letsencrypt --home .  -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
