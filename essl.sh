@@ -423,13 +423,12 @@ success "\n\n\tESSL and all related components have been successfully removed.\n
 
 clear ; update_packages ; install_certbot ; install_acme ; clear
 
-print "\n\n\t\tWelcome to VESSL"
+print "\n\n\t\tWelcome to VESSL (V1.0.0)\n"
 print "\t by @DAILYDIGITALSKILLS"
 print "\t forked from @ErfJab\n\n"
 
 while true; do
     print "-------------------------------------------------------"
-    print "V1.0.0"
     print "1) New Single Domain ssl (sub.domain.com)"
     print "2) New Wildcard ssl (*.domain.com)"
     print "3) New Multi-Domain ssl (sub.domain1.com, sub2.domain2.com ...)"
