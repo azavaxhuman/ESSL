@@ -1,20 +1,20 @@
 #!/bin/bash
-
 print() {
-    echo -e "\e[94m"$1"\e[0m"
+    echo -e "\e[94m""$1""\e[0m"
 }
 
 error() {
-    echo -e "\e[1;91m[error] "$1"\e[0m"
+    echo -e "\e[1;91m[error] ""$1""\e[0m"
 }
 
 success() {
-    echo -e "\e[1;94m[success] "$1"\e[0m"
+    echo -e "\e[1;94m[success] ""$1""\e[0m"
 }
 
 input() {
-    read -p "$(echo -e '\e[33m'"$1"'\e[0m')" "$2"
+    read -r -p "$(echo -e '\e[33m'"$1"'\e[0m')" "$2"
 }
+
 
 update_packages() {
     if command -v apt &>/dev/null; then
@@ -57,7 +57,7 @@ install_acme() {
 
 validate_domain() {
     while true; do
-        input "Please enter your domain: " 'domain'
+        input "Please enter your domain: " domain
         if [[ "$domain" =~ .*\..* && ${#domain} -ge 3 ]]; then
             return 0
         else
@@ -68,9 +68,8 @@ validate_domain() {
 
 validate_email() {
     while true; do
-        read -r -p "Please enter your email: " email_r
-        if [[ "$email_r" =~ .*@.*\..* && ${#email_r} -gt 5 ]]; then
-        email="$email_r"
+        input "Please enter your email: " email
+        if [[ "$email" =~ .*@.*\..* && ${#email} -gt 5 ]]; then
             return 0
         else
             error "Invalid email format. Please enter a valid email address."
@@ -80,9 +79,8 @@ validate_email() {
 
 validate_apikey() {
     while true; do
-        read -r -p  "Please enter your Global API key: " api_key_r
-        if [[ -n "$api_key_r" ]]; then
-            api_key="$api_key_r"
+        input "Please enter your Global API key: " api_key
+        if [[ -n "$api_key" ]]; then
             break
         else
             error "API key cannot be empty. Please enter a valid API key."
@@ -270,6 +268,16 @@ get_cloudflare_ssl() {
     local domain="$1"    
     local api_key="$2"
     local email="$3"
+
+    echo "API Key: $api_key"
+    echo "Email: $email"
+
+    export CF_Key="$api_key"
+    export CF_Email="$email"
+
+    echo "Exported CF_Key: $CF_Key"
+    echo "Exported CF_Email: $CF_Email"
+
     if sudo ~/.acme.sh/acme.sh --issue -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
@@ -447,9 +455,7 @@ while true; do
             validate_domain
             validate_email 
             validate_apikey
-            export CF_Key="$api_key"
-            export CF_Email="$email"
-            get_cloudflare_ssl "$domain" "$email" "$api_key"
+            get_cloudflare_ssl "$domain" "$api_key" "$email"
         else
             error "Invalid option."
         fi        
@@ -468,7 +474,7 @@ while true; do
             validate_domain
             validate_email 
             validate_apikey
-            get_cloudflare_ssl "$domain" "$email" "$api_key"
+            get_cloudflare_ssl "$domain" "$api_key" "$email"
         else
             error "Invalid option. Please enter 1 or 2."
         fi   
