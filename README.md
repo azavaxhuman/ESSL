@@ -11,8 +11,8 @@ VESSL is a fork of the version of ESSL that, in addition to the advantages of th
 
 ### New Future's:
 - Add an option to delete packages and certificates
-- Solving the problem of moving files in Marzban option
-
+- Moving files in Marzban option bug resolved
+- Cloudflare API bug resolved
 ### Support:
 - Acme
 - Certbot
