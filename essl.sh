@@ -265,26 +265,24 @@ renew_ssl() {
 }
 
 get_cloudflare_ssl() {
-    local domain="$1"    
+    local domain="$1"
     local api_key="$2"
     local email="$3"
-
-    echo "API Key: $api_key"
-    echo "Email: $email"
-
+    
     export CF_Key="$api_key"
     export CF_Email="$email"
 
     echo "Exported CF_Key: $CF_Key"
     echo "Exported CF_Email: $CF_Email"
 
-    if sudo ~/.acme.sh/acme.sh --issue -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
+    if sudo -E ~/.acme.sh/acme.sh --issue -d "${domain}" -d *."${domain}" --dns dns_cf --log; then
         success "\n\n\t⭐ SSL certificate for domain '$domain' successfully obtained from Cloudflare."
         move_ssl_files_combined "$domain" "acme"
     else
         error "\n\tFailed to obtain SSL certificate for domain '$domain' from Cloudflare."
     fi
 }
+
 
 
 
